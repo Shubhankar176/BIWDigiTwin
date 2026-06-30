@@ -9,22 +9,21 @@ import {
 
 interface LossItem {
   line: string;
-  planned_downtime: number;
-  unplanned_downtime: number;
-  remarks: string;
+  downtime_minutes: number;
+  rejected_units: number;
 }
 
 interface Props {
   data: LossItem[];
 }
+
 const shortLineName = (line: string) => {
   return line
     .replace("SIGNA Main Line", "SIGNA ML")
-    .replace("ILCV Main Line", "ILCV ML")
-    .replace("SIGNA MFL", "SIGNA MFL")
-    .replace("ILCV MFL", "ILCV MFL");
+    .replace("ILCV Main Line", "ILCV ML");
 };
-export default function TopLossesChart({ data }: Props) {
+
+export default function TopLossesChart({ data = [] }: Props) {
   return (
     <div
       style={{
@@ -37,13 +36,20 @@ export default function TopLossesChart({ data }: Props) {
       <h2>Top Losses</h2>
 
       <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data} margin={{ top: 20, right: 30, left: 10, bottom: 45 }}>
-          <XAxis dataKey="line" tickFormatter={shortLineName} interval={0}/>
+        <BarChart
+          data={data}
+          margin={{ top: 20, right: 30, left: 10, bottom: 45 }}
+        >
+          <XAxis
+            dataKey="line"
+            tickFormatter={shortLineName}
+            interval={0}
+          />
           <YAxis />
           <Tooltip />
 
-          <Bar dataKey="planned_downtime" fill="#ffcc00" />
-          <Bar dataKey="unplanned_downtime" fill="#ff4d4d" />
+          <Bar dataKey="downtime_minutes" name="Downtime (min)" fill="#ff4d4d" />
+          <Bar dataKey="rejected_units" name="Rejected Units" fill="#ffcc00" />
         </BarChart>
       </ResponsiveContainer>
     </div>

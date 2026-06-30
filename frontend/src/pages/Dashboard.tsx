@@ -18,10 +18,8 @@ export default function Dashboard() {
     loading,
     dashboardSummary,
     oeeSummary,
-    alerts,
     productionTrend,
     topLosses,
-    kpiHistory,
     lineSummary,
     shiftSummary,
     downtimeSummary,
@@ -52,7 +50,6 @@ export default function Dashboard() {
     <div className="chart-grid">
       <ProductionTrendChart data={productionTrend} />
       <TopLossesChart data={topLosses} />
-      <KPIHistoryChart data={kpiHistory} />
       <DowntimeSummaryChart data={downtimeSummary} />
     </div>
   </section>
@@ -73,7 +70,7 @@ export default function Dashboard() {
 
   <section className="dashboard-section">
     <h2 className="section-title">Live Alerts</h2>
-    <AlertsPanel data={alerts} />
+    <AlertsPanel data={[]} />
   </section>
 </div>
   );

@@ -1,24 +1,31 @@
-import type { AlertData } from "../types/dashboard.types";
+type AlertItem = {
+  id?: number;
+  message?: string;
+  alert_message?: string;
+  severity?: string;
+  created_at?: string;
+};
 
 interface Props {
-  data: AlertData[];
+  data?: AlertItem[];
 }
 
-export default function AlertsPanel({ data }: Props) {
+export default function AlertsPanel({ data = [] }: Props) {
+  if (!data || data.length === 0) {
+    return (
+      <div className="form-panel">
+        <p>No active alerts.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="alerts-compact">
+    <div className="form-panel">
       {data.map((alert, index) => (
-        <div
-          key={index}
-          className={`alert-row ${
-            alert.severity === "HIGH" ? "alert-high" : "alert-medium"
-          }`}
-        >
-          <div>
-            <strong>{alert.severity}</strong> — {alert.line}
-          </div>
-          <div>{alert.message}</div>
-          <small>{alert.timestamp}</small>
+        <div className="alert-item" key={alert.id || index}>
+          <strong>{alert.severity || "Info"}</strong>
+          <p>{alert.message || alert.alert_message || "Alert"}</p>
+          {alert.created_at && <small>{alert.created_at}</small>}
         </div>
       ))}
     </div>
